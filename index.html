@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Brosur Interaktif AR</title>
+    <!-- Import Model Viewer dari Google -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        model-viewer {
+            width: 100%;
+            height: 400px;
+            background-color: #f3f4f6;
+            border-radius: 1.5rem;
+            --poster-color: transparent;
+        }
+        .ar-button {
+            background-image: url(https://modelviewer.dev/assets/ic_view_in_ar_new_googblue_48dp.png);
+            background-repeat: no-repeat;
+            background-size: 20px 20px;
+            background-position: 12px 50%;
+            background-color: #fff;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            bottom: 16px;
+            padding: 0px 16px 0px 40px;
+            font-family: Roboto Regular, Helvetica Neue, sans-serif;
+            font-size: 14px;
+            color:#4285f4;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 20px;
+            border: 1px solid #DADCE0;
+            z-index: 10;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        /* Sembunyikan tombol AR jika tidak support */
+        model-viewer:not([ar-visible]) .ar-button {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl flex flex-col">
+        <!-- Header Modern -->
+        <header class="bg-gradient-to-r from-indigo-600 to-violet-700 p-8 text-white text-center rounded-b-[3rem] shadow-lg">
+            <h1 class="text-3xl font-black italic tracking-tighter uppercase">Reza Tech</h1>
+            <div class="h-1 w-12 bg-white mx-auto my-2 rounded-full opacity-50"></div>
+            <p class="text-xs opacity-80 font-medium tracking-widest uppercase">Augmented Reality Experience</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-6 flex-grow">
+            <div class="mb-6">
+                <h2 class="text-2xl font-extrabold text-slate-900 leading-tight">Kursi Estetik v1.0</h2>
+                <p class="text-slate-500 mt-2 text-sm leading-relaxed">
+                    Ubah kamarmu jadi lebih keren. Gunakan fitur AR untuk melihat kecocokan produk di ruanganmu secara real-time.
+                </p>
+            </div>
+
+            <!-- Area Objek AR -->
+            <div class="relative mb-8 shadow-inner bg-slate-100 rounded-[2rem] overflow-hidden border-4 border-white">
+                <model-viewer 
+                    id="viewer"
+                    src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/SheenChair/glTF-Binary/SheenChair.glb" 
+                    ar 
+                    ar-modes="webxr scene-viewer quick-look" 
+                    camera-controls 
+                    shadow-intensity="2" 
+                    auto-rotate
+                    environment-image="neutral"
+                    exposure="1"
+                    touch-action="pan-y">
+                    
+                    <button slot="ar-button" class="ar-button active:scale-95 transition-transform">
+                        COBA DI RUANGANMU
+                    </button>
+
+                    <!-- Slot untuk loading/poster -->
+                    <div slot="poster" class="flex items-center justify-center h-full text-slate-400 text-sm italic">
+                        Menyiapkan Model 3D...
+                    </div>
+                </model-viewer>
+            </div>
+
+            <!-- Info Board -->
+            <div class="bg-indigo-50 border border-indigo-100 p-5 rounded-3xl mb-8">
+                <h3 class="text-indigo-900 font-bold text-sm mb-3 flex items-center">
+                    <span class="mr-2 italic">⚠️</span> Tips Penggunaan AR:
+                </h3>
+                <ul class="text-[12px] text-indigo-700 space-y-2 opacity-90">
+                    <li>• Buka di <b>Google Chrome</b> (Android) atau <b>Safari</b> (iOS).</li>
+                    <li>• Pastikan ruangan cukup cahaya.</li>
+                    <li>• Arahkan kamera ke lantai yang datar lalu gerakkan perlahan.</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Action Button -->
+        <div class="p-6 pt-0">
+            <button class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-2">
+                <span>Dapatkan Sekarang</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pb-8 text-center">
+            <p class="text-slate-300 text-[10px] font-bold uppercase tracking-[0.2em]">Created for Digital Dakwah & Tech</p>
+        </footer>
+    </div>
+
+    <script>
+        const modelViewer = document.querySelector('#viewer');
+
+        // Deteksi jika perangkat tidak support AR
+        modelViewer.addEventListener('ar-status', (event) => {
+            if (event.detail.status === 'failed') {
+                console.warn("AR tidak didukung di perangkat ini.");
+                // Bisa tambahkan UI alert kustom di sini
+            }
+        });
+    </script>
+</body>
+</html>
